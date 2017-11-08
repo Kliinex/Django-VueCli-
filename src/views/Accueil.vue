@@ -10,8 +10,19 @@
                   <div class="h1 text-muted text-right mb-4">
                     <i class="icon-exclamation"></i>
                   </div>
-                  <div class="h4 m-0">2</div>
-                  <div>Projet en attente</div>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="h4 m-0">{{tableBcard.pending.label}}</div>
+                      </div>
+                    </div>
+                    <div class="row justify-content-between">
+                      <div class="col-6">Projet en attente</div>
+                      <div class="col-4">
+                        <b-button variant="outline-primary">Afficher</b-button>
+                      </div>
+                    </div>
+                   </div>
                 </b-card>
               </div><!--/.col-->
               <div class="col-sm-6 col-lg-3">
@@ -19,8 +30,19 @@
                   <div class="h1 text-muted text-right mb-4">
                     <i class="icon-fire"></i>
                   </div>
-                  <div class="h4 m-0">9</div>
-                  <div>Projet en cours</div>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="h4 m-0">{{tableBcard.ongoing.label}}</div>
+                      </div>
+                    </div>
+                    <div class="row justify-content-between">
+                      <div class="col-6">Projet en cours</div>
+                      <div class="col-4">
+                        <b-button variant="outline-primary">Afficher</b-button>
+                      </div>
+                    </div>
+                   </div>
                 </b-card>
               </div><!--/.col-->
               <div class="col-sm-6 col-lg-3">
@@ -28,8 +50,19 @@
                   <div class="h1 text-muted text-right mb-4">
                     <i class="icon-chemistry"></i>
                   </div>
-                  <div class="h4 m-0">2</div>
-                  <div>Projet en recette</div>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="h4 m-0">{{tableBcard.recipe.label}}</div>
+                      </div>
+                    </div>
+                    <div class="row justify-content-between">
+                      <div class="col-6">Projet en recette</div>
+                      <div class="col-4">
+                        <b-button variant="outline-primary">Afficher</b-button>
+                      </div>
+                    </div>
+                   </div>
                 </b-card>
               </div><!--/.col-->
               <div class="col-sm-6 col-lg-3">
@@ -37,18 +70,31 @@
                   <div class="h1 text-muted text-right mb-4">
                     <i class="icon-briefcase"></i>
                   </div>
-                  <div class="h4 m-0">34</div>
-                  <div>Projet fini</div>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="h4 m-0">{{tableBcard.finished.label}}</div>
+                      </div>
+                    </div>
+                    <div class="row justify-content-between">
+                      <div class="col-6">Projet fini</div>
+                      <div class="col-4">
+                        <b-button variant="outline-primary">Afficher</b-button>
+                      </div>
+                    </div>
+                   </div>
                 </b-card>
               </div><!--/.col-->
             </div><!--/.row-->
             <br/>
-
             <b-table class="table-outline mb-0" hover responsive outline
               :items="tableItems"
               :fields="tableFields"
-              head-variant="default"
-              >
+              head-variant="default">
+
+              <template slot="id" scope="item">
+                  <strong>{{item.value.id}}</strong>
+              </template>
               <template slot="project" scope="item">
                 <div class="project">
                   <div>{{item.value.name}}</div>
@@ -80,12 +126,18 @@
                 </div>
                 <b-progress class="progress-xs" v-model="item.value.value" :variant="variant(item.value.value)"></b-progress>
               </template>
-              <template slot="payment" scope="item">
-                <i :class="item.value.icon" style="font-size:24px"></i>
+              <template slot="lastUpdate" scope="item">
+                <div class="small text-muted">{{item.value.user}}</div>
+                <strong>{{item.value.update}}</strong>
               </template>
-              <template slot="activity" scope="item">
-                <div class="small text-muted">Last login</div>
-                <strong>{{item.value}}</strong>
+              <template slot="delivery" scope="item">
+                <div class="small text-muted">couloir {{item.value.delivery}}</div>
+                <strong>{{item.value.version}}</strong>
+              </template>
+              <template slot="edit" scope="item">
+                <div class="actions">
+                  <button type="button" class="btn btn-link text-muted" to="projet-nouveau"><i class="icon-settings"></i></button>
+                </div>
               </template>
             </b-table>
           </b-card>
@@ -107,36 +159,57 @@ export default {
     return {
       tableItems: [
         {
+          id: { id: '6' },
           project: { name: 'Projet 1' },
           user: { name: 'Yiorgos Avraamu', metier: 'Développeur éditique' },
           usage: { value: 50, begin: '05/06/2017', end: '05/07/2017', etat: 'Développement' },
-          payment: { name: 'Mastercard', icon: 'fa fa-cc-mastercard' },
-          activity: '10 sec ago'
+          delivery: { version: 'VSI 2018', delivery: 'DV1' },
+          lastUpdate: { user: 'Nicolas MENU', update: '01/01/2018' }
         },
         {
+          id: { id: '19' },
           project: { name: 'Projet 2' },
           user: { name: 'Avram Tarasios', metier: 'Développeur éditique' },
           usage: { value: 0, begin: '05/06/2017', etat: 'Attente' },
-          payment: { name: 'Visa', icon: 'fa fa-cc-visa' },
-          activity: '5 minutes ago'
+          delivery: {version: 'RAPIDO 6', delivery: 'DV8'},
+          lastUpdate: {user: '', update: ''}
         }
       ],
       tableFields: {
+        id: {
+          label: 'ID'
+        },
         project: {
           label: 'Projet'
         },
         user: {
-          label: 'Utilisateur'
+          label: 'Développeur'
         },
         usage: {
           label: 'Avancement'
         },
-        payment: {
-          label: 'Payment method',
-          class: 'text-center'
+        lastUpdate: {
+          label: 'Derniere modification'
         },
-        activity: {
-          label: 'Activity'
+        delivery: {
+          label: 'Livraison'
+        },
+        edit: {
+          label: 'Edition'
+        }
+      },
+      tableBcard: {
+        pending: {
+          label: '651'
+        },
+        ongoing: {
+          label: '844'
+        },
+        recipe: {
+          label: '5'
+        },
+        finished: {
+          label: '61658'
         }
       }
     }
@@ -157,8 +230,6 @@ export default {
     },
     dateEtat (item) {
       let $dateEtat
-      console.log(item.begin)
-      console.log(item.end)
       if (item.begin && !item.end) {
         $dateEtat = 1
       } else if (item.begin && item.end) {
@@ -166,7 +237,6 @@ export default {
       } else if (!item.begin && item.end) {
         $dateEtat = 3
       }
-      console.log('result = ' + $dateEtat)
       return $dateEtat
     }
   }
