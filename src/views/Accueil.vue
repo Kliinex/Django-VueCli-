@@ -180,22 +180,27 @@ export default {
           label: 'ID'
         },
         project: {
-          label: 'Projet'
+          label: 'Projet',
+          class: 'text-center'
         },
         user: {
-          label: 'Développeur'
+          label: 'Développeur',
+          class: 'text-center'
         },
         usage: {
-          label: 'Avancement'
+          label: 'Avancement',
+          class: 'text-center'
         },
         lastUpdate: {
-          label: 'Derniere modification'
+          label: 'Derniere modification',
+          class: 'text-center'
         },
         delivery: {
           label: 'Livraison'
         },
         edit: {
-          label: 'Edition'
+          label: 'Edition',
+          class: 'text-center'
         }
       },
       tableBcard: {
